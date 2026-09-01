@@ -1,0 +1,3 @@
+Tesouraria Martinho Lutero V15.1
+
+Login corrigido: o administrador pode alterar nome, usuário, senha e perfil sem perder os dados. A recuperação restaura o administrador principal. O service worker foi atualizado para evitar cache antigo.
