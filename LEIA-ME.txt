@@ -1,3 +1,6 @@
-Tesouraria Martinho Lutero V15.1
+TESOURARIA MARTINHO LUTERO — V15.3
 
-Login corrigido: o administrador pode alterar nome, usuário, senha e perfil sem perder os dados. A recuperação restaura o administrador principal. O service worker foi atualizado para evitar cache antigo.
+Novidade principal: identificação permanente da versão em Configurações → Sobre o aplicativo e no rodapé.
+
+Esta versão mantém os dados locais existentes quando o aplicativo já estiver instalado.
+Para atualizar no GitHub Pages, substitua os arquivos do site pelos arquivos desta pasta e aguarde o navegador atualizar o cache.
