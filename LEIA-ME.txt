@@ -1,22 +1,9 @@
-TESOURARIA MARTINHO LUTERO — V16.1 NUVEM
+Tesouraria Martinho Lutero — V16.2 Nuvem
 
-Esta versão usa Supabase Authentication e banco de dados em nuvem.
+Correções desta versão:
+- Tipo de oferta enviado ao Supabase como "envelope" ou "prato", conforme a restrição real do banco.
+- Exclusão de ofertante corrigida: agora exclui o registro; ofertas históricas permanecem sem ofertante quando necessário.
+- Número da versão corrigido para V16.2 no aplicativo, rodapé e backup.
+- Cache/PWA atualizado.
 
-ANTES DO PRIMEIRO ACESSO:
-1. No Supabase, em SQL Editor, execute:
-
-   alter table public.ofertas
-   add column if not exists data_recebida date;
-
-2. Publique os arquivos desta pasta no mesmo endereço HTTPS usado pelo aplicativo.
-3. Entre usando o e-mail e a senha do primeiro usuário criado no Supabase.
-
-IMPORTANTE:
-- A senha não é armazenada no aplicativo.
-- O primeiro usuário criado após o gatilho configurado recebe perfil admin.
-- Novos usuários criados em Authentication > Users entram como colaborador.
-- A criação/convite de usuários diretamente pela tela do aplicativo será adicionada em uma etapa posterior usando função segura do Supabase, sem expor chave privada.
-- O botão “Enviar dados locais para a nuvem” serve para migrar uma única vez os dados locais da versão anterior, se eles ainda estiverem neste mesmo endereço do aplicativo.
-- Faça um backup antes da migração.
-
-VERSÃO: V16.1 NUVEM
+Antes de publicar, mantenha as configurações do GitHub Pages existentes.
