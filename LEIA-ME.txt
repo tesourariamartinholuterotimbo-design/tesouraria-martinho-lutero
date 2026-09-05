@@ -1,39 +1,41 @@
-TESOURARIA MARTINHO LUTERO — V17.0 NUVEM
+TESOURARIA MARTINHO LUTERO — V18.0 NUVEM
+Atualização: 05/09/2026
 
-Esta versão usa Supabase para autenticação e dados em nuvem.
+MELHORIAS DESTA VERSÃO
+1. BACKUP — Escolher onde salvar
+- O botão “Escolher onde salvar” tenta abrir o seletor de arquivos do navegador.
+- Se o navegador do celular não oferecer esse recurso, o arquivo é baixado normalmente em Downloads.
+- O botão “Compartilhar / Salvar no celular” abre o compartilhamento do Android quando disponível, permitindo escolher Arquivos, Google Drive ou outro destino.
 
-ATUALIZAÇÃO DO BANCO — executar uma única vez no Supabase SQL Editor (Editor SQL):
+2. SAIR DO APP
+- Corrigido o problema em que o botão Sair apenas recarregava a página e a sessão continuava ativa.
+- Agora o aplicativo encerra a sessão do Supabase e volta para a tela de login.
 
-ALTER TABLE public.ofertas
-ADD COLUMN IF NOT EXISTS ofertante_nome TEXT;
+3. COLABORADORES
+- O aplicativo agora consulta a tabela profiles e mostra os usuários existentes ao administrador.
+- O administrador pode ativar/desativar o acesso e alterar o perfil de outro usuário.
+- Para CRIAR uma nova conta de login, por segurança, ainda deve ser usado Supabase → Authentication → Users → Add user.
+- Depois da criação, o colaborador aparece automaticamente em Configurações → Usuários e acessos.
+- Não são gravadas senhas dentro do aplicativo.
 
-UPDATE public.ofertas o
-SET ofertante_nome = p.nome
-FROM public.ofertantes p
-WHERE o.ofertante_id = p.id
-  AND o.ofertante_nome IS NULL;
+4. CULTOS ORGANIZADOS POR PASTAS
+- Os cultos agora aparecem visualmente organizados por Ano e, dentro de cada ano, por Mês.
+- O ano mais recente fica aberto.
+- O mês mais recente fica aberto; os demais podem ser abertos tocando na pasta.
+- Os registros continuam na nuvem exatamente como antes; isso é apenas uma organização visual, sem duplicar dados.
 
-ALTER TABLE public.ofertas
-DROP CONSTRAINT IF EXISTS envelope_exige_ofertante;
+IMPORTANTE
+- Esta versão não altera a estrutura principal do banco Supabase.
+- Não é necessário executar uma nova migração SQL apenas para essas melhorias.
+- Publique todos os arquivos desta pasta juntos no GitHub Pages.
+- Depois de publicar, faça uma atualização forte/limpe o cache do PWA se o celular continuar mostrando a V17.0.
 
-ALTER TABLE public.ofertas
-DROP CONSTRAINT IF EXISTS ofertas_ofertante_id_fkey;
-
-ALTER TABLE public.ofertas
-ADD CONSTRAINT ofertas_ofertante_id_fkey
-FOREIGN KEY (ofertante_id)
-REFERENCES public.ofertantes(id)
-ON DELETE SET NULL;
-
-O campo ofertante_nome preserva o nome no histórico mesmo depois que o cadastro do ofertante for excluído ou renomeado.
-
-IMPORTANTE:
-1. Execute o SQL acima antes de publicar/usar a V17.0.
-2. Não apague ofertas para excluir ofertantes.
-3. A V17.0 continua exigindo o nome do ofertante ao registrar um novo envelope.
-4. O backup da nuvem é baixado como JSON e pode ser guardado no Google Drive.
-5. A integração automática direta com Google Drive não está habilitada neste ambiente; não coloque chaves privadas do Google dentro do index.html.
-
-CACHE PWA: a V17.0 usa cache tml-v17-0.
-
-Arquivo ATUALIZAR_BANCO_V17.sql contém o SQL acima.
+TESTE RECOMENDADO
+1. Entrar como administrador.
+2. Abrir Backup e testar “Escolher onde salvar”.
+3. Testar “Compartilhar / Salvar no celular”.
+4. Sair e confirmar que a tela de login aparece e NÃO entra sozinha.
+5. Criar um novo usuário em Supabase Authentication → Users → Add user.
+6. Entrar com esse usuário e confirmar que aparece como Colaborador.
+7. Voltar ao administrador e testar ativar/desativar o colaborador.
+8. Criar cultos em meses/anos diferentes e conferir as pastas.
