@@ -1,9 +1,39 @@
-Tesouraria Martinho Lutero — V16.2 Nuvem
+TESOURARIA MARTINHO LUTERO — V17.0 NUVEM
 
-Correções desta versão:
-- Tipo de oferta enviado ao Supabase como "envelope" ou "prato", conforme a restrição real do banco.
-- Exclusão de ofertante corrigida: agora exclui o registro; ofertas históricas permanecem sem ofertante quando necessário.
-- Número da versão corrigido para V16.2 no aplicativo, rodapé e backup.
-- Cache/PWA atualizado.
+Esta versão usa Supabase para autenticação e dados em nuvem.
 
-Antes de publicar, mantenha as configurações do GitHub Pages existentes.
+ATUALIZAÇÃO DO BANCO — executar uma única vez no Supabase SQL Editor (Editor SQL):
+
+ALTER TABLE public.ofertas
+ADD COLUMN IF NOT EXISTS ofertante_nome TEXT;
+
+UPDATE public.ofertas o
+SET ofertante_nome = p.nome
+FROM public.ofertantes p
+WHERE o.ofertante_id = p.id
+  AND o.ofertante_nome IS NULL;
+
+ALTER TABLE public.ofertas
+DROP CONSTRAINT IF EXISTS envelope_exige_ofertante;
+
+ALTER TABLE public.ofertas
+DROP CONSTRAINT IF EXISTS ofertas_ofertante_id_fkey;
+
+ALTER TABLE public.ofertas
+ADD CONSTRAINT ofertas_ofertante_id_fkey
+FOREIGN KEY (ofertante_id)
+REFERENCES public.ofertantes(id)
+ON DELETE SET NULL;
+
+O campo ofertante_nome preserva o nome no histórico mesmo depois que o cadastro do ofertante for excluído ou renomeado.
+
+IMPORTANTE:
+1. Execute o SQL acima antes de publicar/usar a V17.0.
+2. Não apague ofertas para excluir ofertantes.
+3. A V17.0 continua exigindo o nome do ofertante ao registrar um novo envelope.
+4. O backup da nuvem é baixado como JSON e pode ser guardado no Google Drive.
+5. A integração automática direta com Google Drive não está habilitada neste ambiente; não coloque chaves privadas do Google dentro do index.html.
+
+CACHE PWA: a V17.0 usa cache tml-v17-0.
+
+Arquivo ATUALIZAR_BANCO_V17.sql contém o SQL acima.
