@@ -1,4 +1,4 @@
-TESOURARIA MARTINHO LUTERO — V18.0 NUVEM
+TESOURARIA MARTINHO LUTERO — V18.1 NUVEM
 Atualização: 05/09/2026
 
 MELHORIAS DESTA VERSÃO
@@ -39,3 +39,11 @@ TESTE RECOMENDADO
 6. Entrar com esse usuário e confirmar que aparece como Colaborador.
 7. Voltar ao administrador e testar ativar/desativar o colaborador.
 8. Criar cultos em meses/anos diferentes e conferir as pastas.
+
+
+V18.1 — Acesso de colaboradores:
+- Cada colaborador usa seu próprio e-mail e senha do Supabase Authentication.
+- O usuário pode alterar a própria senha em “Minha conta”.
+- O administrador continua responsável por criar/desativar usuários e definir permissões.
+- O botão “Compartilhar app” envia ou copia o link oficial do aplicativo.
+- Após “Sair”, a sessão não é reaberta automaticamente até um novo login.
