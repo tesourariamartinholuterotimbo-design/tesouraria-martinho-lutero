@@ -1,0 +1,7 @@
+Tesouraria Martinho Lutero — V20.2 Nuvem
+
+Ofertas + indicadores de ofertantes + PDV completo para eventos.
+
+PDV: venda rápida, troco, pagamento misto, pagamentos parciais/posteriores, contas pendentes, fundo inicial por fonte, gastos, consumo e estoque.
+
+IMPORTANTE: execute a migração V20.1 corrigida no Supabase antes de publicar esta versão.
