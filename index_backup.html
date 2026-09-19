@@ -160,70 +160,17 @@ function save(render=true){if(render)renderAll()}
 function normalize(){}
 
 async function createCult(){
-  try{
-    if(!currentUser){
-      alert('Sua sessão não está ativa. Saia e entre novamente.');
-      return;
-    }
-    if(!canOperate()){
-      alert('Seu usuário não tem acesso à Tesouraria de Ofertas.');
-      return;
-    }
-    if(!cloudReady){
-      alert('A conexão com a nuvem ainda não está pronta. Aguarde alguns segundos e tente novamente.');
-      return;
-    }
-
-    const editId=String($('cultEditId').value||'');
-    const date=String($('cultDate').value||'').trim();
-    const time=String($('cultTime').value||'').trim();
-    const name=String($('cultName').value||'').trim()||'Culto';
-
-    if(!date){
-      alert('Selecione a data do culto no calendário.');
-      return;
-    }
-
-    const msg=`${editId?'Salvar alterações deste culto?':'Criar este culto?'}\n\n${name}\n${dayName(date)} — ${brDate(date)}${time?' · '+time:''}`;
-    if(!confirm(msg))return;
-
-    const payload={
-      data_culto:date,
-      horario:time||null,
-      nome:name,
-      atualizado_em:new Date().toISOString()
-    };
-
-    let res;
-    if(editId){
-      res=await sb.from('cultos')
-        .update(payload)
-        .eq('id',Number(editId));
-    }else{
-      res=await sb.from('cultos')
-        .insert({...payload,criado_por:currentUser.id});
-    }
-
-    if(res.error){
-      console.error('ERRO AO CRIAR/EDITAR CULTO:',res.error);
-      alert('Não foi possível salvar o culto:\n\n'+res.error.message);
-      return;
-    }
-
-    await load();
-
-    setCultDateSelectors('');
-    $('cultTime').value='';
-    $('cultName').value='Culto';
-    $('cultEditId').value='';
-    $('cultFormTitle').textContent='⛪ Novo culto';
-    $('createCult').textContent='Criar culto';
-    showPage('home');
-
-  }catch(e){
-    console.error('ERRO INESPERADO AO CRIAR CULTO:',e);
-    alert('Erro inesperado ao criar o culto:\n\n'+(e.message||e));
-  }
+  if(!canOperate())return;
+  const editId=String($('cultEditId').value||''),date=$('cultDate').value,time=$('cultTime').value,name=$('cultName').value.trim()||'Culto';
+  if(!date)return alert('Selecione a data do culto no calendário.');
+  if(!confirm(`${editId?'Salvar alterações deste culto?':'Criar este culto?'}\n\n${name}\n${dayName(date)} — ${brDate(date)}${time?' · '+time:''}`))return;
+  const payload={data_culto:date,horario:time||null,nome:name,atualizado_em:new Date().toISOString()};
+  let res;
+  if(editId) res=await sb.from('cultos').update(payload).eq('id',Number(editId));
+  else res=await sb.from('cultos').insert({...payload,criado_por:currentUser.id}).select().single();
+  if(res.error){alert('Não foi possível salvar o culto: '+res.error.message);return;}
+  await load();
+  setCultDateSelectors('');$('cultTime').value='';$('cultName').value='Culto';$('cultEditId').value='';$('cultFormTitle').textContent='⛪ Novo culto';$('createCult').textContent='Criar culto';showPage('home');
 }
 async function closeCult(id){
   const c=db.cultos.find(x=>String(x.id)===String(id));if(!c)return;
