@@ -1,1 +1,1 @@
-const CACHE='tml-v20-2';self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
+const CACHE='tml-v18-2';self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());
